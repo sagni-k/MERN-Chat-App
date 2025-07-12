@@ -3,8 +3,16 @@ const express = require('express');
 const router =express.Router();
 
 
-router.get("/signUp",(req,res)=>{res.send("signup route")});
-router.get("/login",(req,res)=>{res.send("login route")});
-router.get("/logout",(req,res)=>{res.send("logout route")});
+const authController = require('../controller/auth.controller')   
+//require('./math') is how you say: “Give me the thing that math.js is exporting.”
 
-module.exports=router;
+
+router.get("/signUp",(req,res)=>{authController.signUp});
+router.get("/login",(req,res)=>{authController.login});
+router.get("/logout",(req,res)=>{authController.logout});
+
+
+
+
+module.exports=router;     
+//module.exports is how you say:  “Hey, this is the thing I want to share from this file
