@@ -7,9 +7,9 @@ const authController = require('../controller/auth.controller')
 //require('./math') is how you say: “Give me the thing that math.js is exporting.”
 
 
-router.get("/signUp",(req,res)=>{authController.signUp});
-router.get("/login",(req,res)=>{authController.login});
-router.get("/logout",(req,res)=>{authController.logout});
+router.post("/signUp",(req,res)=>{authController.signUp(req,res)});
+router.post("/login",(req,res)=>{authController.login(req,res)});
+router.post("/logout",(req,res)=>{authController.logout(req,res)});
 
 
 
