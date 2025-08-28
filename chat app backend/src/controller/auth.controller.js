@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt= require('bcrypt');
 const User= require('../models/user.models')
 const generateToken = require('../lib/jwt');
-
+const cloudinary = require('../lib/cloudinary');
 
 const signUp = async (req,res)=> {
 
@@ -34,7 +34,7 @@ const signUp = async (req,res)=> {
             if(newUser){
                 generateToken(newUser._id,res,);
                 await newUser.save();
-                res.status(200).json({
+                res.status(201).json({
                     _id:newUser._id,
                     fullName:newUser.fullName,
                     email:newUser.email,
@@ -108,5 +108,41 @@ const logout = (req,res)=>{
     
 };
 
+const updateProfile = async (req,res)=>{
 
-module.exports={signUp,login,logout};
+
+    try {
+        const {profilePic} = req.profilePic;
+
+        if(!profilePic){
+        return res.status(400).json({message:"profile picture missing"})
+        }
+        const userId = req.user._id;
+
+        const url = await cloudinary.uploader.upload(profilePic)
+
+        const updatedUser = await User.findByIdAndUpdate(userId,
+            {profilePicture:url.secure_url},
+            {new:true}
+        )
+
+        res.status(200).json(updatedUser)
+    } catch (error) {
+        res.status(500).json({message: "Server error", error: error.message})
+    }
+    
+
+}
+
+
+const checkAuth = (req,res) =>{
+    try {
+        res.status(200).json(req.user)
+    } catch (error) {
+        res.status(500).json({message: "Server error", error: error.message})
+    }
+    
+}
+
+
+module.exports={signUp,login,logout,updateProfile,checkAuth};
