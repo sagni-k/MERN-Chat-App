@@ -11,7 +11,7 @@ const messageRoutes = require('./routes/message.routes');
 app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
 const connect_db = require('./lib/db');
-
+const PORT = process.env.PORT;
 
 const __dirname = path.resolve();
 app.use(cors({
@@ -37,7 +37,7 @@ if(process.env.NODE_ENV ==="production"){
 
 
 
-server.listen(5000,()=>{
+server.listen(PORT,()=>{
     console.log("server started")
     connect_db();
 
