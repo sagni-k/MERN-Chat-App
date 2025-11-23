@@ -13,7 +13,7 @@ app.use(cookieParser());
 const connect_db = require('./lib/db');
 const PORT = process.env.PORT;
 
-const __dirname = path.resolve();
+//const __dirname = path.resolve();
 app.use(cors({
     origin:"http://localhost:5173",
     credentials:true,
